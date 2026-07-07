@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import { Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Jobs from "./pages/Jobs";
@@ -14,6 +14,8 @@ import InterviewDetails from "./pages/InterviewDetails";
 function App() {
   return (
     <Routes>
+
+      <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<Login />} />
 
       <Route
