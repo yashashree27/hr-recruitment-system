@@ -3,6 +3,8 @@ import Candidate from "../models/Candidate.js";
 import Interview from "../models/Interview.js";
 import Job from "../models/Job.js";
 
+const FRONTEND_URL = process.env.FRONTEND_URL;
+
 export const createCandidate = async (req, res) => {
   try {
     const { name, email, phone, job } = req.body;
@@ -64,7 +66,7 @@ export const createCandidate = async (req, res) => {
     });
 
     //  Create magic link
-    const magicLink = `http://localhost:5173/candidate-form/${token}`;
+    const magicLink = `${FRONTEND_URL}/candidate-form/${token}`;
 
     res.status(201).json({
       message: "Candidate created successfully",
