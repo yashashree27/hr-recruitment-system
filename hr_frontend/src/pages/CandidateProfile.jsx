@@ -30,9 +30,11 @@ function CandidateProfile() {
     );
   }
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const getFileUrl = (filePath) => {
     if (!filePath) return null;
-    return `http://localhost:8000/${filePath.replace("src/", "")}`;
+    return `${API_URL}/${filePath.replace("src/", "")}`;
   };
 
   return (

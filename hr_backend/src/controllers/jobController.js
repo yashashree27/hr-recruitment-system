@@ -1,6 +1,7 @@
 import Job from "../models/Job.js";
 import Candidate from "../models/Candidate.js";
 
+const BASE_URL = process.env.BASE_URL;
 // CREATE JOB
 export const createJob = async (req, res) => {
   try {

@@ -283,15 +283,49 @@ Backend requires:
 
 ---
 
-## Future Improvements
+## Hosting
 
-* Email notifications for candidates
-* Calendar integration for interviews
-* Advanced candidate search and filtering
-* HR analytics dashboard
-* Cloud storage for resumes and documents
+The application is hosted as a full-stack web application.
 
----
+- **Frontend:** Vercel
+- **Backend:** Render
+- **Database:** MongoDB Atlas
+
+This setup allows the frontend and backend to be deployed independently while using a managed cloud database that is accessible from both local and production environments.
+
+
+## Tech Stack & Why
+
+### Frontend
+**React + Vite**
+- Chosen for its component-based architecture, fast development experience, and optimized production builds.
+
+### Backend
+**Node.js + Express.js**
+- Provides a lightweight and scalable REST API with simple routing and middleware support.
+
+### Database
+**MongoDB Atlas**
+- A flexible NoSQL database that works well for storing jobs, candidates, interviews, and offer data.
+
+### File Storage
+**Multer with local storage**
+- Used to upload resumes and generated PDF documents. It was sufficient for this assignment and easy to integrate.
+
+### Hosting
+- **Vercel** was chosen for the frontend because it provides seamless deployment for React applications.
+- **Render** was chosen for the backend because it supports long-running Node.js/Express services and integrates well with GitHub.
+
+## PDF Generation Approach
+
+Offer Letters and NDA documents are generated using **PDFKit**.
+
+PDFKit was chosen because it allows PDFs to be generated directly from the backend without requiring HTML templates or external services. It is lightweight and easy to customize.
+
+For a production-scale application, I would:
+- Store generated PDFs in cloud storage such as AWS S3.
+- Generate documents asynchronously using background jobs.
+- Support customizable templates that HR teams can edit without changing code.
 
 ## Author
 

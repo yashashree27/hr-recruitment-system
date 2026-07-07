@@ -21,6 +21,9 @@ function Candidates() {
 
   const [showAddModal, setShowAddModal] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
+
   useEffect(() => {
     fetchCandidates();
   }, []);
@@ -76,18 +79,18 @@ function Candidates() {
   };
 
   // ---------------- STATE MACHINE ----------------
- const getAllowedActions = (status) => {
-  return {
-    canInterview: status === "Form Submitted",
+  const getAllowedActions = (status) => {
+    return {
+      canInterview: status === "Form Submitted",
 
-    canOffer: status === "Interview Completed",
+      canOffer: status === "Interview Completed",
 
-    // ONLY allow hire if Offer exists AND NOT already final
-    canHire: status === "Offer Sent",
+      // ONLY allow hire if Offer exists AND NOT already final
+      canHire: status === "Offer Sent",
 
-    canReject: status !== "Hired" && status !== "Rejected",
+      canReject: status !== "Hired" && status !== "Rejected",
+    };
   };
-};
 
   // ---------------- MODALS ----------------
   const openInterviewModal = (candidate) => {
@@ -175,12 +178,8 @@ function Candidates() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-
                           window.open(
-                            `http://localhost:8000/${candidate.resume.replace(
-                              "src/",
-                              ""
-                            )}`,
+                            `${API_URL}/${candidate.resume.replace("src/", "")}`,
                             "_blank"
                           );
                         }}

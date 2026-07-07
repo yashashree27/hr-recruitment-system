@@ -3,10 +3,12 @@ import fs from "fs";
 import path from "path";
 import Candidate from "../models/Candidate.js";
 
+const BASE_URL = process.env.BASE_URL;
+
 export const generateOfferAndNDA = async (req, res) => {
   try {
 
-      const dir = path.join("src/uploads/documents");
+    const dir = path.join("src/uploads/documents");
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
@@ -154,10 +156,9 @@ export const generateOfferAndNDA = async (req, res) => {
 
     res.json({
       message: "Offer documents generated successfully",
+      offerLetter: `${BASE_URL}/uploads/documents/${offerFileName}`,
 
-      offerLetter: `http://localhost:8000/uploads/documents/${offerFileName}`,
-
-      nda: `http://localhost:8000/uploads/documents/${ndaFileName}`,
+      nda: `${BASE_URL}/uploads/documents/${ndaFileName}`,
     });
   } catch (error) {
     res.status(500).json({
