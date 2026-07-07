@@ -16,8 +16,6 @@ logs
 # OS files
 .DS_Store
 
-#Uploads
-hr_backend/src/uploads/
 
 #Build
 dist
