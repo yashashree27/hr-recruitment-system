@@ -386,11 +386,11 @@ Backend Pod → MongoDB Atlas
 
 Traefik acts as the Ingress Controller and uses the Ingress rules to route incoming requests to the appropriate Kubernetes Service.
 
-## Kubernetes Namespace
+### Kubernetes Namespace
  rove-app
 
 
-## Kubernetes Resources
+### Kubernetes Resources
 
 rove-app
 ├── backend-deployment
@@ -400,7 +400,7 @@ rove-app
 ├── frontend-service
 └── hr-ingress
 
-## Helm Chart
+### Helm Chart
 
 hr-chart/
 ├── Chart.yaml
@@ -413,7 +413,7 @@ hr-chart/
     ├── frontend-service.yaml
     └── ingress.yaml
 
-## Deployment
+### Deployment
 
 The application is deployed using Helm:
 
@@ -425,7 +425,7 @@ microk8s kubectl get pods -n rove-app
 microk8s kubectl get services -n rove-app
 microk8s kubectl get ingress -n rove-app
 
-##Frontend API Configuration
+### Frontend API Configuration
 The frontend uses the Kubernetes Ingress path for backend communication:
 
 VITE_API_URL=/api
@@ -438,7 +438,7 @@ http://rove.local:32751
 Backend API:
 http://rove.local:32751/api
 
-## Local Hostname
+### Local Hostname
 
 The local hostname is configured in /etc/hosts:
 
