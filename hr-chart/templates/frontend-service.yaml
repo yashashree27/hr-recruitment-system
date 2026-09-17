@@ -1,0 +1,26 @@
+# Service = gives the frontend Pod a stable network address
+apiVersion: v1
+
+# This Kubernetes resource is a Service
+kind: Service
+
+metadata:
+  # Name of the frontend Service
+  name: frontend-service
+
+spec:
+  # Service sends traffic to Pods having this label
+  selector:
+    app: frontend
+
+  ports:
+    - protocol: TCP
+
+      # Port exposed by the Service
+      port: 80
+
+      # Port where Nginx is running inside the frontend Pod
+      targetPort: 80
+
+  # ClusterIP = accessible only inside the Kubernetes cluster
+  type: ClusterIP

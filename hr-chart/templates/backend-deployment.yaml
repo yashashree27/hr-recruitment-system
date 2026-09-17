@@ -1,0 +1,64 @@
+# Deployment = tells Kubernetes how to create and manage the backend Pod(s)
+apiVersion: apps/v1
+
+# This Kubernetes resource is a Deployment
+kind: Deployment
+
+metadata:
+  # Name of the Deployment
+  name: backend-deployment
+
+spec:
+  # Number of backend Pod copies we want to run
+  replicas: 1
+
+  selector:
+    # Deployment uses this label to identify the Pods it manages
+    matchLabels:
+      # This must match the label inside template.metadata.labels
+      app: backend
+
+  template:
+    # Configuration for the Pod that the Deployment creates
+    metadata:
+      labels:
+        # Label attached to the backend Pod
+        # The Service will later use this label to find the Pod
+        app: backend
+
+    spec:
+      # Defines the containers that will run inside the Pod
+      containers:
+        - name: backend
+          
+          # Backend Docker image stored in the MicroK8s local registry
+          image: localhost:32000/hr-backend:latest
+
+          ports:
+            # Port on which the Node/Express application listens
+            - containerPort: 8000
+
+          env:
+            # Environment variable that the Node.js application will read
+            - name: MONGO_URI
+
+              # Get the value from a Kubernetes Secret
+              valueFrom:
+                secretKeyRef:
+                  # Name of the Kubernetes Secret
+                  name: backend-secret
+
+                  # Key inside backend-secret
+                  key: MONGO_URI
+
+            # Environment variable for JWT authentication
+            - name: JWT_SECRET
+
+              # Get the value from a Kubernetes Secret
+              valueFrom:
+                secretKeyRef:
+                  # Name of the Kubernetes Secret
+                  name: backend-secret
+
+                  # Key inside backend-secret
+                  key: JWT_SECRET

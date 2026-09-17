@@ -1,0 +1,31 @@
+# Service = gives the backend Pod(s) a stable internal network address
+# and distributes traffic across matching backend Pods
+apiVersion: v1
+
+# This Kubernetes resource is a Service
+kind: Service
+
+metadata:
+  # Name of the Service
+  # Other Pods can use this name to reach the backend
+  name: backend-service
+
+spec:
+  # Tells the Service which Pods it should send traffic to
+  selector:
+    # Must match the label in backend-deployment.yaml
+    app: backend
+
+  ports:
+    # Defines how the Service handles network traffic
+    - protocol: TCP
+
+      # Port exposed by the Service
+      # Other Pods will connect to backend-service:8000
+      port: 8000
+
+      # Port on the backend container where Node/Express is listening
+      targetPort: 8000
+
+  # ClusterIP = Service is accessible only inside the Kubernetes cluster
+  type: ClusterIP

@@ -1,0 +1,39 @@
+# Deployment = tells Kubernetes how to create and manage the frontend Pod(s)
+apiVersion: apps/v1
+
+# This Kubernetes resource is a Deployment
+kind: Deployment
+
+metadata:
+  # Name of the frontend Deployment
+  name: frontend-deployment
+
+spec:
+  # Number of frontend Pod copies we want to run
+  replicas: 1
+
+  selector:
+    # Deployment uses this label to identify the Pods it manages
+    matchLabels:
+      # This must match the label inside template.metadata.labels
+      app: frontend
+
+  template:
+    # Configuration for the Pod that the Deployment creates
+    metadata:
+      labels:
+        # Label attached to the frontend Pod
+        # The Service will later use this label to find the Pod
+        app: frontend
+
+    spec:
+      # Defines the containers that will run inside the Pod
+      containers:
+        - name: frontend
+
+          # Frontend Docker image stored in the MicroK8s local registry
+          image: localhost:32000/hr-frontend:latest
+
+          ports:
+            # Nginx serves the built React application on port 80
+            - containerPort: 80

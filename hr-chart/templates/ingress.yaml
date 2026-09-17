@@ -1,0 +1,49 @@
+# Kubernetes API version for Ingress
+apiVersion: networking.k8s.io/v1
+
+# Resource type
+kind: Ingress
+
+metadata:
+  # Name of the Ingress resource
+  name: hr-ingress
+
+spec:
+  # Use the MicroK8s Traefik Ingress Controller
+  ingressClassName: public
+
+  # Define routing rules for incoming requests
+  rules:
+    - http:
+        paths:
+
+          # Requests starting with /api are sent to the backend
+          - path: /api
+
+            # Prefix means /api and everything under /api
+            # For example: /api/login, /api/users
+            pathType: Prefix
+
+            backend:
+              service:
+                # Kubernetes backend Service name
+                name: backend-service
+
+                # Backend Service is exposed on port 8000
+                port:
+                  number: 8000
+
+          # Requests starting with / are sent to the frontend
+          - path: /
+
+            # Prefix means / and all frontend routes
+            pathType: Prefix
+
+            backend:
+              service:
+                # Kubernetes frontend Service name
+                name: frontend-service
+
+                # Frontend Service is exposed on port 80
+                port:
+                  number: 80
