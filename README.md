@@ -386,8 +386,8 @@ Backend Pod → MongoDB Atlas
 
 Traefik acts as the Ingress Controller and uses the Ingress rules to route incoming requests to the appropriate Kubernetes Service.
 
-
 Kubernetes Namespace
+
 rove-app
 Kubernetes Resources
 rove-app
