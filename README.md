@@ -330,3 +330,135 @@ For a production-scale application, I would:
 ## Author
 
 Yashashree Marghade
+
+
+
+
+# Kubernetes Deployment
+
+This section describes the Kubernetes deployment of ROVE Hire using MicroK8s, Helm, and Traefik.
+
+## Kubernetes Architecture
+
+```text
+Browser
+   ↓
+Traefik Ingress Controller
+   ↓
+HR Ingress
+   ↓
+├── / → frontend-service → Frontend Pod
+│
+└── /api → backend-service → Backend Pod
+                              ↓
+                         MongoDB Atlas
+
+Kubernetes Networking
+
+The application uses the following routing:
+
+                         Browser
+                            |
+                            |
+                  rove.local:32751
+                            |
+                            v
+                  Traefik Ingress
+                            |
+                            v
+                         Ingress
+                            |
+              +-------------+-------------+
+              |                           |
+              | /                         | /api
+              v                           v
+      frontend-service             backend-service
+              |                           |
+              v                           v
+       Frontend Pod                 Backend Pod
+                                          |
+                                          v
+                                   MongoDB Atlas
+Routing
+/ → frontend-service → Frontend Pod
+/api → backend-service → Backend Pod
+Backend Pod → MongoDB Atlas
+
+Traefik acts as the Ingress Controller and uses the Ingress rules to route incoming requests to the appropriate Kubernetes Service.
+
+
+Kubernetes Namespace
+rove-app
+Kubernetes Resources
+rove-app
+├── backend-deployment
+├── backend-service
+├── backend-secret
+├── frontend-deployment
+├── frontend-service
+└── hr-ingress
+Helm Chart
+hr-chart/
+├── Chart.yaml
+├── values.yaml
+└── templates/
+    ├── backend-deployment.yaml
+    ├── backend-service.yaml
+    ├── backend-secret.yaml
+    ├── frontend-deployment.yaml
+    ├── frontend-service.yaml
+    └── ingress.yaml
+Deployment
+
+The application is deployed using Helm:
+
+microk8s helm3 install hr-release ./hr-chart -n rove-app
+
+Check the deployment:
+
+microk8s kubectl get pods -n rove-app
+microk8s kubectl get services -n rove-app
+microk8s kubectl get ingress -n rove-app
+Frontend API Configuration
+
+The frontend uses the Kubernetes Ingress path for backend communication:
+
+VITE_API_URL=/api
+
+This allows the frontend and backend to use the same hostname.
+
+Frontend:
+http://rove.local:32751
+
+Backend API:
+http://rove.local:32751/api
+Local Hostname
+
+The local hostname is configured in /etc/hosts:
+
+10.100.2.229 rove.local
+
+The application can then be accessed at:
+
+http://rove.local:32751
+Useful Commands
+
+Check all resources:
+
+microk8s kubectl get all -n rove-app
+
+Check Pods:
+
+microk8s kubectl get pods -n rove-app
+
+Check Services:
+
+microk8s kubectl get services -n rove-app
+
+Check Ingress:
+
+microk8s kubectl get ingress -n rove-app
+
+Check Helm release:
+
+microk8s helm3 list -n rove-app
