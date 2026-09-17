@@ -338,7 +338,7 @@ Yashashree Marghade
 
 This section describes the Kubernetes deployment of ROVE Hire using MicroK8s, Helm, and Traefik.
 
-## Kubernetes Architecture
+### Kubernetes Architecture
 
 ```text
 Browser
